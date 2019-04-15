@@ -41,7 +41,7 @@ public class LinkedList<T>{
      * @return the element at index, or null if index out of range
      */
     public T get(int index){
-            if(indexValid(index)){
+            if(isIndexValid(index)){
                 Node currentNode = head;
                 int position = 0;
                 while(position != index){
@@ -55,17 +55,26 @@ public class LinkedList<T>{
             }
     }
 
-    public boolean indexValid(int index){
+    /**
+     * Prevents index out of bounds errors by checking for valid index
+     * @param index - the index inputted by user, to be checked for validity
+     * @return true if index valid, false otherwise
+     */
+    public boolean isIndexValid(int index){
         if(index >= 0 && index < size){
             return true;
         } else {
-            System.out.println("ERROR: " + index + "does not exist");
+            System.out.println("ERROR: index " + index + "does not exist");
             return false;
         }
     }
 
+    /**
+     * Removes the element at the specified index from the linkedlist.
+     * @param index - the index of the element to be removed
+     */
     public void remove(int index){
-        if(indexValid(index)){
+        if(isIndexValid(index)){
             Node currentNode = head;
             int position = 0;
 

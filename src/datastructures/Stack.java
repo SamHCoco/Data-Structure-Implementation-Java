@@ -13,7 +13,7 @@ public class Stack<T> {
     }
 
     /**
-     * Adds an element the stack.
+     * Adds an element to the stack.
      * @param element - the element to be added to the stack
      */
     public void push(T element){
@@ -25,16 +25,16 @@ public class Stack<T> {
      * @return the element at the top of the stack, or null if stack empty
      */
     public T pop(){
-        if(stack.size() != 0){
+        if(isEmpty()){
+            System.out.println("Stack Empty");
+            return null;
+        } else {
             int lastIndex = stack.size() - 1;
             T result = stack.get(lastIndex);
             stack.remove(lastIndex);
             System.out.println(result + " popped from stack");
             print();
             return result;
-        } else {
-            System.out.println("Stack Empty");
-            return null;
         }
     }
 
@@ -42,12 +42,25 @@ public class Stack<T> {
      * Prints the stack.
      */
     public void print(){
-        String stack = "";
-        for(int i = 0; i < this.stack.size(); i++){
-            stack = stack + this.stack.get(i) + ", ";
+        StringBuilder stack = new StringBuilder();
+        for(T element : this.stack){
+            stack.append(element);
+            stack.append(", ");
         }
-        stack  = stack.substring(0, stack.length() - 2);
-        System.out.println( "LINKEDLIST: [" + stack + "]\n");
+        stack.delete(stack.length() - 2, stack.length());
+        System.out.println( "STACK: [" + stack + "]\n");
+    }
+
+    /**
+     * Determines whether the stack has no elements (is empty).
+     * @return true if the stack is empty, false otherwise
+     */
+    public boolean isEmpty(){
+        if(stack.size() == 0){
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

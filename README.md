@@ -69,7 +69,7 @@ Stacks are another collection type data structure but are organized along the **
  * **push(e)** - Adds element e to the top of the stack.
  * **pop()** - Returns and removes the element at the top of the stack.  
 
-My implementation of a Stack uses Java's built in *ArrayList* data structure:
+My implementation of a Stack using Java's built in *ArrayList* data structure:
 ```Java
 public class Stack<T> {
     private ArrayList<T> stack;
@@ -113,4 +113,104 @@ public class Stack<T> {
        }
    }
 }
+```
+NOTE: The print() method is not included in this code sample but can be found in the source code.
+
+* ## LinkedList
+LinkedLists are data structures made up of **nodes** which contain data and pointers which point to the next node in the data structure. The first node, called the **head-node**, contains the first element while the last node is None (or null) indicating to end of list. **LinkedLists have 3 key methods:**
+
+ * **add(e)** - Adds element e to the linkedlist.
+ * **remove(index)** - Removes the element at the specified index from the linkedlist.
+ * **get(index)** - Returns the element at the specified index.
+ * **search(element)** - Finds whether specified element is in the linkedlist.
+
+My implementation of the **Singly LinkedList** data structure using Java's ArrayList:
+```Java
+public class LinkedList<T>{
+    private Node head;
+    private int size;
+
+    // inner node class
+    private class Node {
+        T data;
+        Node nextNode;
+    }
+
+    // linkedlist constructor
+    public LinkedList(){
+        head = new Node();
+        size = 0; // the number of elements in linkedlist
+    }
+
+    /**
+     * Adds data to the linkedlist.
+     * @param data - the data (element) to be added to the linkedlist
+     */
+    public void add(T data){
+            Node currentNode = head;
+            if(head.data == null){
+                head.data = data;
+                size++;
+            } else {
+                while(currentNode.nextNode != null){
+                    currentNode = currentNode.nextNode;
+                }
+                currentNode.nextNode = new Node();
+                currentNode.nextNode.data = data;
+                size++;
+            }
+        }
+
+    /**
+     * Gets element, at the specified index, of the linkedlist.
+     * @param index - the index of the desired element in the linkedlist
+     * @return the element at index, or null if index out of range
+     */
+    public T get(int index){
+            if(isIndexValid(index)){
+                Node currentNode = head;
+                int position = 0;
+                while(position != index){
+                    currentNode = currentNode.nextNode;
+                    position++;
+                }
+                System.out.println("LinkedList[" + index + "] = " + currentNode.data);
+                return currentNode.data;
+            } else {
+                return null;
+            }
+    }
+
+    /**
+     * Removes the element at the specified index from the linkedlist.
+     * @param index - the index of the element to be removed
+     */
+    public void remove(int index){
+        if(isIndexValid(index)){
+            Node currentNode = head;
+            int position = 0;
+
+            // conditionals: index = 0, index = last index, index = any index but first and last
+            if(index == 0){
+                head = head.nextNode;
+                size--;
+            } else if(index == size - 1){
+                while(position != size - 2){ // size - 2 to get to node preceding node to be deleted
+                    currentNode = currentNode.nextNode;
+                    position++;
+                }
+                currentNode.nextNode = null;
+                size--;
+            } else {
+                while(position != index - 1){
+                    currentNode = currentNode.nextNode;
+                    position++;
+                }
+                currentNode.nextNode = currentNode.nextNode.nextNode;
+                size--;
+            }
+        }
+    }
+}
+
 ```

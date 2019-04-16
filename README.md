@@ -138,13 +138,17 @@ public class LinkedList<T>{
     private Node head;
     private int size;
 
-    // inner node class
+    /**
+     * Inner class defining linkedlist nodes
+     */
     private class Node {
         T data;
         Node nextNode;
     }
 
-    // linkedlist constructor
+    /**
+     * Constructor for singly linkedlist.
+     */
     public LinkedList(){
         head = new Node();
         size = 0; // the number of elements in linkedlist
@@ -176,18 +180,20 @@ public class LinkedList<T>{
      */
     public T get(int index){
             if(isIndexValid(index)){
-                Node currentNode = head;
-                int position = 0;
-                while(position != index){
-                    currentNode = currentNode.nextNode;
-                    position++;
+                if(!isEmpty()){
+                    Node currentNode = head;
+                    int position = 0;
+                    while(position != index){
+                        currentNode = currentNode.nextNode;
+                        position++;
+                    }
+                    System.out.println("LinkedList[" + index + "] = " + currentNode.data);
+                    return currentNode.data;
                 }
-                System.out.println("LinkedList[" + index + "] = " + currentNode.data);
-                return currentNode.data;
-            } else {
-                return null;
             }
+            return null;
     }
+
 
     /**
      * Removes the element at the specified index from the linkedlist.
@@ -197,31 +203,60 @@ public class LinkedList<T>{
         if(isIndexValid(index)){
             Node currentNode = head;
             int position = 0;
-
-            // conditionals: index = 0, index = last index, index = any index but first and last
-            if(index == 0){
-                head = head.nextNode;
-                size--;
-            } else if(index == size - 1){
-                while(position != size - 2){ // size - 2 to get to node preceding node to be deleted
-                    currentNode = currentNode.nextNode;
-                    position++;
+            if(!isEmpty()){
+                // conditionals: index = 0, index = last index, index = any index but first and last
+                if(index == 0){
+                    head = head.nextNode;
+                    size--;
+                } else if(index == size - 1){
+                    while(position != size - 2){ // size - 2 to get to node preceding node to be deleted
+                        currentNode = currentNode.nextNode;
+                        position++;
+                    }
+                    currentNode.nextNode = null;
+                    size--;
+                } else {
+                    while(position != index - 1){
+                        currentNode = currentNode.nextNode;
+                        position++;
+                    }
+                    currentNode.nextNode = currentNode.nextNode.nextNode;
+                    size--;
                 }
-                currentNode.nextNode = null;
-                size--;
-            } else {
-                while(position != index - 1){
-                    currentNode = currentNode.nextNode;
-                    position++;
-                }
-                currentNode.nextNode = currentNode.nextNode.nextNode;
-                size--;
             }
         }
     }
-}
 
+    /**
+     * Searches for the specified element in the linkedlist and returns
+     * the index of its first occurrence in the linkedlist.
+     * @param element - the element to be found
+     * @return the index of the element if it is found, null if not found
+     */
+    public Integer search(T element){
+        Node currentNode = head;
+        boolean found = false;
+        int index  = 0;
+        while(!found){
+            if(currentNode.data == element){
+                System.out.println(element + " found at index[" + index + "]");
+                return index;
+            }
+
+            if(currentNode.nextNode == null){
+                System.out.println(element + " not found");
+                break;
+            } else {
+                currentNode = currentNode.nextNode;
+                index++;
+            }
+        }
+        return null;
+    }
+}
 ```
+NOTE: The isIndexValid() and isEmpty() methods are not included in this sample code but can be found in the LinkedList class source code.
+
 ### Time Complexity (Worst Case)
 * **Access**:
    * **O(n)** - In the worst case, it takes linear time to access an arbitrary element a linkedlist because the nodes have to be traversed to get to the desired element. To reach the last node in a linkedlist of *n* nodes, *n* nodes have to be traversed.

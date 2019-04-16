@@ -4,13 +4,17 @@ public class LinkedList<T>{
     private Node head;
     private int size;
 
-    // inner node class
+    /**
+     * Inner class defining linkedlist nodes
+     */
     private class Node {
         T data;
         Node nextNode;
     }
 
-    // linkedlist constructor
+    /**
+     * Constructor for singly linkedlist.
+     */
     public LinkedList(){
         head = new Node();
         size = 0; // the number of elements in linkedlist
@@ -42,17 +46,78 @@ public class LinkedList<T>{
      */
     public T get(int index){
             if(isIndexValid(index)){
-                Node currentNode = head;
-                int position = 0;
-                while(position != index){
-                    currentNode = currentNode.nextNode;
-                    position++;
+                if(!isEmpty()){
+                    Node currentNode = head;
+                    int position = 0;
+                    while(position != index){
+                        currentNode = currentNode.nextNode;
+                        position++;
+                    }
+                    System.out.println("LinkedList[" + index + "] = " + currentNode.data);
+                    return currentNode.data;
                 }
-                System.out.println("LinkedList[" + index + "] = " + currentNode.data);
-                return currentNode.data;
-            } else {
-                return null;
             }
+            return null;
+    }
+
+
+    /**
+     * Removes the element at the specified index from the linkedlist.
+     * @param index - the index of the element to be removed
+     */
+    public void remove(int index){
+        if(isIndexValid(index)){
+            Node currentNode = head;
+            int position = 0;
+            if(!isEmpty()){
+                // conditionals: index = 0, index = last index, index = any index but first and last
+                if(index == 0){
+                    head = head.nextNode;
+                    size--;
+                } else if(index == size - 1){
+                    while(position != size - 2){ // size - 2 to get to node preceding node to be deleted
+                        currentNode = currentNode.nextNode;
+                        position++;
+                    }
+                    currentNode.nextNode = null;
+                    size--;
+                } else {
+                    while(position != index - 1){
+                        currentNode = currentNode.nextNode;
+                        position++;
+                    }
+                    currentNode.nextNode = currentNode.nextNode.nextNode;
+                    size--;
+                }
+            }
+        }
+    }
+
+    /**
+     * Searches for the specified element in the linkedlist and returns
+     * the index of its first occurrence in the linkedlist.
+     * @param element - the element to be found
+     * @return the index of the element if it is found, null if not found
+     */
+    public Integer search(T element){
+        Node currentNode = head;
+        boolean found = false;
+        int index  = 0;
+        while(!found){
+            if(currentNode.data == element){
+                System.out.println(element + " found at index[" + index + "]");
+                return index;
+            }
+
+            if(currentNode.nextNode == null){
+                System.out.println(element + " not found");
+                break;
+            } else {
+                currentNode = currentNode.nextNode;
+                index++;
+            }
+        }
+        return null;
     }
 
     /**
@@ -64,39 +129,21 @@ public class LinkedList<T>{
         if(index >= 0 && index < size){
             return true;
         } else {
-            System.out.println("ERROR: index " + index + "does not exist");
+            System.out.println("ERROR: index[" + index + "] does not exist");
             return false;
         }
     }
 
     /**
-     * Removes the element at the specified index from the linkedlist.
-     * @param index - the index of the element to be removed
+     * Determines whether the linkedlist is empty
+     * @return true if linkedlist empty, false otherwise
      */
-    public void remove(int index){
-        if(isIndexValid(index)){
-            Node currentNode = head;
-            int position = 0;
-
-            // conditionals: index = 0, index = last index, index = any index but first and last
-            if(index == 0){
-                head = head.nextNode;
-                size--;
-            } else if(index == size - 1){
-                while(position != size - 2){ // size - 2 to get to node preceding node to be deleted
-                    currentNode = currentNode.nextNode;
-                    position++;
-                }
-                currentNode.nextNode = null;
-                size--;
-            } else {
-                while(position != index - 1){
-                    currentNode = currentNode.nextNode;
-                    position++;
-                }
-                currentNode.nextNode = currentNode.nextNode.nextNode;
-                size--;
-            }
+    public boolean isEmpty(){
+        if(size == 0){
+            System.out.println("LinkedList empty");
+            return true;
+        } else {
+            return false;
         }
     }
 }

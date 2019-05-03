@@ -47,6 +47,14 @@ public class BinarySearchTreeTest {
         assertEquals(binarySearchTree2.inorderTraversal(), bst_2_expected);
     }
 
+    @Test
+    public void search(){
+        assertTrue(binarySearchTree1.search(22));
+        assertFalse(binarySearchTree1.search(3.14));
+        assertTrue(binarySearchTree2.search(12));
+        assertFalse(binarySearchTree2.search(-3.14));
+    }
+
 
     /**
      * Sets the expected value for binarySearchTree1

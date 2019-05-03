@@ -262,3 +262,235 @@ NOTE: The isIndexValid() and isEmpty() methods are not included in this sample c
    * **O(n)** - In the worst case, it takes linear time to access an arbitrary element a linkedlist because the nodes have to be traversed to get to the desired element. To reach the last node in a linkedlist of *n* nodes, *n* nodes have to be traversed.
 * **Insertion (add):**
   * **O(n)** -  Inserting an element into a linkedlist takes linear time in the time worst case. The insertion itself takes *O(1)* constant time but having to traverse nodes to access the node required to complete the insertion takes *O(n)* linear time.
+
+## Non-Linear Data Structures:
+ * ## Binary Search Tree
+ Binary Search Trees are tree data structures which satisfy the following conditions:
+  * Any node can either have **no children or up to a maximum of 2 children** (i.e. any given node can have 0, 1 or 2 children), with the top node being the **root node**.
+  * The left subtree of any node must have values which are less than the value of that node, while the right subtree of the node has values which are greater. More simply, this means that **the left child of any node is always less than its parent and the right child greater than its parent**.  
+
+  Binary Search Trees have **2 basic methods**:
+  * **insert(value)**
+  * **search(value)**
+
+My implementation of a Binary Search Tree using a linked data structure approach:
+
+```Java
+public class BinarySearchTree{
+    private Node root;
+    private int size = 0;
+    /**
+     * Inner class defining Binary Search Tree nodes.
+     */
+    private class Node {
+        Double data;
+        Node leftChild;
+        Node rightChild;
+
+        /**
+         * Constructor for nodes.
+         * @param data - the value of the node's data (Double)
+         */
+        private Node(Double data){
+            this.data = data;
+        }
+    }
+
+    /**
+     * Constructor for Binary Search Tree. It also sets the root node value.
+     * @param data - the value of the root node (Double)
+     */
+    public BinarySearchTree(Double data){
+        root = new Node(data);
+    }
+
+    /**
+     * Inserts a value into the Binary Search Tree.
+     * @param data - the value to be inserted (Double)
+     */
+    public void insert(Double data) {
+        Node current_node = root;
+        boolean inserted = false;
+        while (!inserted) {
+            if (data > current_node.data && current_node.rightChild == null) {
+                current_node.rightChild = new Node(data);
+                size++;
+                inserted = true;
+            } else if (data < current_node.data && current_node.leftChild == null) {
+                current_node.leftChild = new Node(data);
+                size++;
+                inserted = true;
+            } else if (data.equals(current_node.data) && current_node.leftChild == null) {
+                current_node.leftChild = new Node(data);
+                size++;
+                inserted = true;
+            } else if (data > current_node.data && current_node.rightChild != null) {
+                current_node = current_node.rightChild;
+            } else if (data < current_node.data && current_node.leftChild != null) {
+                current_node = current_node.leftChild;
+            }
+        }
+    }
+
+    /**
+     * Searches Binary Search Tree for specified value.
+     * @param searchValue - the value to be found in the BST
+     * @return True if found, false otherwise
+     */
+    public boolean search(double searchValue){
+        Node currentNode = root;
+        boolean found = false;
+        while(!found){
+            if(currentNode.data == searchValue){
+                found = true;
+            } else if(searchValue > currentNode.data){
+                currentNode = currentNode.rightChild;
+            } else if(searchValue < currentNode.data){
+                currentNode = currentNode.leftChild;
+            }
+            if(currentNode == null){
+                System.out.println(searchValue + " not found in Binary Search Tree");
+                return false;
+            }
+        }
+        System.out.println(searchValue + " found in Binary Search Tree");
+        return true;
+    }
+}
+```
+
+  ## Binary Search Tree Traversal
+  There are 3 generally used approaches to traversing trees (visiting all nodes and reading the data they contain):
+  #### **Preorder**
+  With *preorder* traversal, nodes are visited in the following order:
+  1. *Root*
+  2. *Left subtree* - traversed in a preorder fashion.
+  3. *Right subtree* - traversed in a preorder fashion.
+
+```Java
+/**
+ * Traverses Binary Search Tree in preorder fashion (root, left, right) and returns the result.
+ * @return An ArrayList containing preorder traversal values for the Binary Search Tree.
+ */
+public ArrayList<Double> preorderTraversal(){
+    Node currentNode = root;
+    ArrayList<Double> traverseValues = new ArrayList<>();
+    Stack<Node> binaryNodes = new Stack<>();
+    boolean traversed = false;
+    int counter = 0;
+    while(!traversed){
+        if(currentNode.leftChild != null && currentNode.rightChild != null){
+            if(!binaryNodes.contains(currentNode)){
+                binaryNodes.push(currentNode);
+                traverseValues.add(currentNode.data);
+                counter++;
+                currentNode = currentNode.leftChild;
+            } else {
+                currentNode = currentNode.rightChild;
+                binaryNodes.pop();
+            }
+        } else if(currentNode.leftChild != null && currentNode.rightChild == null){
+            traverseValues.add(currentNode.data);
+            counter++;
+            currentNode =currentNode.leftChild;
+        } else if(currentNode.leftChild == null && currentNode.rightChild != null){
+            traverseValues.add(currentNode.data);
+            counter++;
+            currentNode = currentNode.rightChild;
+        } else if(currentNode.leftChild == null && currentNode.rightChild == null){
+            traverseValues.add(currentNode.data);
+            counter++;
+            if(!binaryNodes.empty()){
+                currentNode = binaryNodes.peek();
+            }
+        }
+        if(counter == size + 1){
+            traversed = true;
+        }
+    }
+    System.out.println("BST PREORDER TRAVERSAL: " + traverseValues);
+    return traverseValues;
+}
+```
+  #### **Inorder**
+  With *inorder* traversal, nodes are visited in the following order:
+  1. *Left subtree* - traversed in an inorder fashion.
+  2. *Root*
+  3. *Right subtree* - traversed in an inorder fashion.
+
+```Java
+/**
+* Traverses Binary Search Tree in inorder fashion (left, root, right) and returns the result.
+* @return An ArrayList containing inorder traversal values for the Binary Search Tree.
+*/
+public ArrayList<Double> inorderTraversal(){
+  Node currentNode = root;
+  ArrayList<Double> traverseValues = new ArrayList<>();
+  Stack<Node> binaryNodes = new Stack<>();
+  Stack<Node> traversedNodes = new Stack<>();
+  Stack<Integer> zeroOneArray = new Stack<>();
+  Integer zeroOneCount = 0;
+  boolean traversed = false;
+  int counter = 0;
+  while(!traversed){
+      if(currentNode.leftChild != null && currentNode.rightChild != null){
+          if(zeroOneCount != 0){
+              zeroOneArray.push(zeroOneCount);
+              zeroOneCount = 0;
+          }
+          if(!binaryNodes.contains(currentNode)){
+              binaryNodes.add(currentNode);
+              currentNode = currentNode.leftChild;
+          } else {
+              traverseValues.add(currentNode.data);
+              counter++;
+              currentNode = currentNode.rightChild;
+              binaryNodes.pop();
+          }
+
+      } else if(currentNode.leftChild != null && currentNode.rightChild == null){
+          traversedNodes.add(currentNode);
+          zeroOneCount++;
+          currentNode = currentNode.leftChild;
+
+      } else if(currentNode.leftChild == null && currentNode.rightChild != null){
+          traversedNodes.add(currentNode);
+          zeroOneCount++;
+          currentNode = currentNode.rightChild;
+
+      } else if(currentNode.leftChild == null && currentNode.rightChild == null){
+          traversedNodes.add(currentNode);
+          zeroOneCount++;
+          zeroOneArray.push(zeroOneCount);
+          zeroOneCount = 0;
+          if(!binaryNodes.empty()){
+              currentNode = binaryNodes.peek();
+              for(int i = 0; i < zeroOneArray.peek(); i++){
+                  traverseValues.add(traversedNodes.pop().data);
+                  counter++;
+              }
+              zeroOneArray.pop();
+          } else {
+              while(!zeroOneArray.empty()){
+                  for(int i = 0; i < zeroOneArray.peek(); i++){
+                      traverseValues.add(traversedNodes.pop().data);
+                      counter++;
+                  }
+                  zeroOneArray.pop();
+              }
+          }
+      }
+      if(counter == size + 1){
+          traversed = true;
+      }
+  }
+  System.out.println("BST INORDER TRAVERSAL: " + traverseValues);
+  return traverseValues;
+}
+```
+
+ #### **Postorder**
+  With *postorder* traversal, nodes are visited in the following order:
+  1. *Left subtree* - traversed in postorder fashion.
+  2. *Right subtree* - traversed in an postorder fashion.
+  3. *Root*

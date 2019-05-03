@@ -60,6 +60,31 @@ public class BinarySearchTree{
     }
 
     /**
+     * Searches Binary Search Tree for specified value.
+     * @param searchValue - the value to be found in the BST
+     * @return True if found, false otherwise
+     */
+    public boolean search(double searchValue){
+        Node currentNode = root;
+        boolean found = false;
+        while(!found){
+            if(currentNode.data == searchValue){
+                found = true;
+            } else if(searchValue > currentNode.data){
+                currentNode = currentNode.rightChild;
+            } else if(searchValue < currentNode.data){
+                currentNode = currentNode.leftChild;
+            }
+            if(currentNode == null){
+                System.out.println(searchValue + " not found in Binary Search Tree");
+                return false;
+            }
+        }
+        System.out.println(searchValue + " found in Binary Search Tree");
+        return true;
+    }
+
+    /**
      * Traverses Binary Search Tree in preorder fashion (root, left, right) and returns the result.
      * @return An ArrayList containing preorder traversal values for the Binary Search Tree.
      */

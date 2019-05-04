@@ -259,7 +259,7 @@ NOTE: The isIndexValid() and isEmpty() methods are not included in this sample c
 
 ### Time Complexity (Worst Case)
 * **Access**:
-   * **O(n)** - In the worst case, it takes linear time to access an arbitrary element a linkedlist because the nodes have to be traversed to get to the desired element. To reach the last node in a linkedlist of *n* nodes, *n* nodes have to be traversed.
+   * **O(n)** - In the worst case, it takes linear time to access an arbitrary element of a linkedlist as the nodes must be traversed to get to the desired element. To reach the last node in a linkedlist of *n* nodes, *n* nodes have to be traversed.
 * **Insertion (add):**
   * **O(n)** -  Inserting an element into a linkedlist takes linear time in the time worst case. The insertion itself takes *O(1)* constant time but having to traverse nodes to access the node required to complete the insertion takes *O(n)* linear time.
 
@@ -494,3 +494,74 @@ public ArrayList<Double> inorderTraversal(){
   1. *Left subtree* - traversed in postorder fashion.
   2. *Right subtree* - traversed in an postorder fashion.
   3. *Root*
+
+```Java
+/**
+ * Traverses Binary Search Tree in preorder fashion (left, right, root) and returns the result.
+ * @return An ArrayList containing preorder traversal values for the Binary Search Tree.
+ */
+public ArrayList<Double> postorderTraversal(){
+    Node currentNode = root;
+    ArrayList<Double> traverseValues = new ArrayList<>();
+    Stack<Node> traversedNodes = new Stack<>();
+    Stack<Node> binaryNodes = new Stack<>();
+    Stack<Integer> popCounterStack = new Stack<>();
+    int popCounter = 0;
+    boolean traversed = false;
+    int counter = 0;
+    while(!traversed){
+        if(currentNode.leftChild != null && currentNode.rightChild != null){
+            if(popCounter != 0){
+                popCounterStack.push(popCounter);
+                popCounter = 0;
+            }
+            if(!binaryNodes.contains(currentNode)){
+                binaryNodes.add(currentNode);
+                currentNode = currentNode.leftChild;
+            } else {
+                traversedNodes.push(currentNode);
+                popCounter++;
+                currentNode = currentNode.rightChild;
+                binaryNodes.pop();
+            }
+
+        } else if(currentNode.leftChild != null && currentNode.rightChild == null){
+            traversedNodes.add(currentNode);
+            popCounter++;
+            currentNode = currentNode.leftChild;
+
+        } else if(currentNode.leftChild == null && currentNode.rightChild != null){
+            traversedNodes.add(currentNode);
+            popCounter++;
+            currentNode = currentNode.rightChild;
+
+        } else if(currentNode.leftChild == null && currentNode.rightChild == null){
+            traversedNodes.add(currentNode);
+            popCounter++;
+            popCounterStack.push(popCounter);
+            popCounter = 0;
+            if(!binaryNodes.empty()){
+                currentNode = binaryNodes.peek();
+                for(int i = 0; i < popCounterStack.peek(); i++){
+                    traverseValues.add(traversedNodes.pop().data);
+                    counter++;
+                }
+                popCounterStack.pop();
+            } else {
+                while(!popCounterStack.empty()){
+                    for(int i = 0; i < popCounterStack.peek(); i++){
+                        traverseValues.add(traversedNodes.pop().data);
+                        counter++;
+                    }
+                    popCounterStack.pop();
+                }
+            }
+        }
+        if(counter == size + 1){
+            traversed = true;
+        }
+    }
+    System.out.println("BST POSTORDER TRAVERSAL: " + traverseValues);
+    return traverseValues;
+}
+```

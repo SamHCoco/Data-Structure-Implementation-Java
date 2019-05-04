@@ -137,15 +137,15 @@ public class BinarySearchTree{
         ArrayList<Double> traverseValues = new ArrayList<>();
         Stack<Node> binaryNodes = new Stack<>();
         Stack<Node> traversedNodes = new Stack<>();
-        Stack<Integer> zeroOneArray = new Stack<>();
-        Integer zeroOneCount = 0;
+        Stack<Integer> popCounterStack = new Stack<>();
+        int popCounter = 0;
         boolean traversed = false;
         int counter = 0;
         while(!traversed){
             if(currentNode.leftChild != null && currentNode.rightChild != null){
-                if(zeroOneCount != 0){
-                    zeroOneArray.push(zeroOneCount);
-                    zeroOneCount = 0;
+                if(popCounter != 0){
+                    popCounterStack.push(popCounter);
+                    popCounter = 0;
                 }
                 if(!binaryNodes.contains(currentNode)){
                     binaryNodes.add(currentNode);
@@ -159,33 +159,33 @@ public class BinarySearchTree{
 
             } else if(currentNode.leftChild != null && currentNode.rightChild == null){
                 traversedNodes.add(currentNode);
-                zeroOneCount++;
+                popCounter++;
                 currentNode = currentNode.leftChild;
 
             } else if(currentNode.leftChild == null && currentNode.rightChild != null){
                 traversedNodes.add(currentNode);
-                zeroOneCount++;
+                popCounter++;
                 currentNode = currentNode.rightChild;
 
             } else if(currentNode.leftChild == null && currentNode.rightChild == null){
                 traversedNodes.add(currentNode);
-                zeroOneCount++;
-                zeroOneArray.push(zeroOneCount);
-                zeroOneCount = 0;
+                popCounter++;
+                popCounterStack.push(popCounter);
+                popCounter = 0;
                 if(!binaryNodes.empty()){
                     currentNode = binaryNodes.peek();
-                    for(int i = 0; i < zeroOneArray.peek(); i++){
+                    for(int i = 0; i < popCounterStack.peek(); i++){
                         traverseValues.add(traversedNodes.pop().data);
                         counter++;
                     }
-                    zeroOneArray.pop();
+                    popCounterStack.pop();
                 } else {
-                    while(!zeroOneArray.empty()){
-                        for(int i = 0; i < zeroOneArray.peek(); i++){
+                    while(!popCounterStack.empty()){
+                        for(int i = 0; i < popCounterStack.peek(); i++){
                             traverseValues.add(traversedNodes.pop().data);
                             counter++;
                         }
-                        zeroOneArray.pop();
+                        popCounterStack.pop();
                     }
                 }
             }
@@ -196,4 +196,74 @@ public class BinarySearchTree{
         System.out.println("BST INORDER TRAVERSAL: " + traverseValues);
         return traverseValues;
     }
+
+    /**
+     * Traverses Binary Search Tree in preorder fashion (left, right, root) and returns the result.
+     * @return An ArrayList containing preorder traversal values for the Binary Search Tree.
+     */
+    public ArrayList<Double> postorderTraversal(){
+        Node currentNode = root;
+        ArrayList<Double> traverseValues = new ArrayList<>();
+        Stack<Node> traversedNodes = new Stack<>();
+        Stack<Node> binaryNodes = new Stack<>();
+        Stack<Integer> popCounterStack = new Stack<>();
+        int popCounter = 0;
+        boolean traversed = false;
+        int counter = 0;
+        while(!traversed){
+            if(currentNode.leftChild != null && currentNode.rightChild != null){
+                if(popCounter != 0){
+                    popCounterStack.push(popCounter);
+                    popCounter = 0;
+                }
+                if(!binaryNodes.contains(currentNode)){
+                    binaryNodes.add(currentNode);
+                    currentNode = currentNode.leftChild;
+                } else {
+                    traversedNodes.push(currentNode);
+                    popCounter++;
+                    currentNode = currentNode.rightChild;
+                    binaryNodes.pop();
+                }
+
+            } else if(currentNode.leftChild != null && currentNode.rightChild == null){
+                traversedNodes.add(currentNode);
+                popCounter++;
+                currentNode = currentNode.leftChild;
+
+            } else if(currentNode.leftChild == null && currentNode.rightChild != null){
+                traversedNodes.add(currentNode);
+                popCounter++;
+                currentNode = currentNode.rightChild;
+
+            } else if(currentNode.leftChild == null && currentNode.rightChild == null){
+                traversedNodes.add(currentNode);
+                popCounter++;
+                popCounterStack.push(popCounter);
+                popCounter = 0;
+                if(!binaryNodes.empty()){
+                    currentNode = binaryNodes.peek();
+                    for(int i = 0; i < popCounterStack.peek(); i++){
+                        traverseValues.add(traversedNodes.pop().data);
+                        counter++;
+                    }
+                    popCounterStack.pop();
+                } else {
+                    while(!popCounterStack.empty()){
+                        for(int i = 0; i < popCounterStack.peek(); i++){
+                            traverseValues.add(traversedNodes.pop().data);
+                            counter++;
+                        }
+                        popCounterStack.pop();
+                    }
+                }
+            }
+            if(counter == size + 1){
+                traversed = true;
+            }
+        }
+        System.out.println("BST POSTORDER TRAVERSAL: " + traverseValues);
+        return traverseValues;
+    }
+
 }

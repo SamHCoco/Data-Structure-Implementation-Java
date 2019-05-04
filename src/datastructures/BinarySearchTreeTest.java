@@ -29,22 +29,32 @@ public class BinarySearchTreeTest {
 
     @Test
     public void preorderTraversal(){
-        double[] x_expected = {10, 7, 6, 1, 8, 9, 11, 20, 14, 22};
-        double[] y_expected = {20, 10, -6, 12, 65, 43, 256};
-        setBst_1_expected(x_expected);
-        setBst_2_expected(y_expected);
+        double[] expected_1 = {10, 7, 6, 1, 8, 9, 11, 20, 14, 22};
+        double[] expected_2 = {20, 10, -6, 12, 65, 43, 256};
+        setBst_1_Expected(expected_1);
+        setBst_2_Expected(expected_2);
         assertEquals(binarySearchTree1.preorderTraversal(), bst_1_expected);
         assertEquals(binarySearchTree2.preorderTraversal(), bst_2_expected);
     }
 
     @Test
     public void inorderTraversal(){
-        double[] x_expected = {1, 6, 7, 9, 8, 10, 14, 20, 22, 11};
-        double[] y_expected = {-6, 10, 12, 20, 43, 65, 256};
-        setBst_1_expected(x_expected);
-        setBst_2_expected(y_expected);
+        double[] expected_1 = {1, 6, 7, 9, 8, 10, 14, 20, 22, 11};
+        double[] expected_2 = {-6, 10, 12, 20, 43, 65, 256};
+        setBst_1_Expected(expected_1);
+        setBst_2_Expected(expected_2);
         assertEquals(binarySearchTree1.inorderTraversal(), bst_1_expected);
         assertEquals(binarySearchTree2.inorderTraversal(), bst_2_expected);
+    }
+
+    @Test
+    public void postorderTraversal(){
+        double[] expected_1 = {1, 6, 9, 8, 7, 14, 22, 20, 11, 10};
+        double[] expected_2 = {-6, 12, 10, 43, 256, 65, 20};
+        setBst_1_Expected(expected_1);
+        setBst_2_Expected(expected_2);
+        assertEquals(binarySearchTree1.postorderTraversal(), bst_1_expected);
+        assertEquals(binarySearchTree2.postorderTraversal(), bst_2_expected);
     }
 
     @Test
@@ -60,7 +70,7 @@ public class BinarySearchTreeTest {
      * Sets the expected value for binarySearchTree1
      * @param expected_values the expected values of binarySearchTree1 (a double array)
      */
-    public void setBst_1_expected(double[] expected_values){
+    public void setBst_1_Expected(double[] expected_values){
         for(double x : expected_values){
             bst_1_expected.add(x);
         }
@@ -70,7 +80,7 @@ public class BinarySearchTreeTest {
      * Sets the expected value for binarySearchTree2
      * @param expected_values the expected values of binarySearchTree2 (a double array)
      */
-    public void setBst_2_expected(double[] expected_values){
+    public void setBst_2_Expected(double[] expected_values){
         for(double y : expected_values){
             bst_2_expected.add(y);
         }

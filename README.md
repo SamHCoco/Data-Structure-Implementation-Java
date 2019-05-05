@@ -269,12 +269,12 @@ NOTE: The isIndexValid() and isEmpty() methods are not included in this sample c
   * Any node can either have **no children or up to a maximum of 2 children** (i.e. any given node can have 0, 1 or 2 children), with the top node being the **root node**.
   * The left subtree of any node must have values which are less than the value of that node, while the right subtree of the node has values which are greater. More simply, this means that **the left child of any node is always less than its parent and the right child greater than its parent**.  
 
-  Binary Search Trees have **2 basic methods**:
+  Binary Search Trees have **3 basic methods**:
   * **insert(value)**
   * **search(value)**
+  * **delete(value)**
 
 My implementation of a Binary Search Tree using a linked data structure approach:
-
 ```Java
 public class BinarySearchTree{
     private Node root;
@@ -358,6 +358,15 @@ public class BinarySearchTree{
     }
 }
 ```
+*NOTE: Deletion method to be implemented*
+
+### Time Complexity (Worst Case)
+* **Insert**:
+ * **O(n)** - Insertion into a BST takes linear time in the worst case.
+* **Search**:
+ * **O(n)** - Search into a BST takes linear time in the worst case.
+* **Delete**:
+ * **O(n)** - Deletion of a node in a BST takes linear time in the worst case.
 
   ## Binary Search Tree Traversal
   There are 3 generally used approaches to traversing trees (visiting all nodes and reading the data they contain):

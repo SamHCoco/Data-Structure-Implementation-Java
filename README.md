@@ -370,6 +370,7 @@ public class BinarySearchTree{
 
   ## Binary Search Tree Traversal
   There are 3 generally used approaches to traversing trees (visiting all nodes and reading the data they contain):
+
   #### **Preorder**
   With *preorder* traversal, nodes are visited in the following order:
   1. *Root*

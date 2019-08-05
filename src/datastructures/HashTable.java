@@ -27,6 +27,8 @@ public class HashTable<T, E> {
                 asciiSum += (int) ((String) key).charAt(i);
             }
             return asciiSum % size;
+        } else if(key instanceof Integer){
+            return (Integer) key % size;
         }
         return null;
     }
@@ -49,6 +51,12 @@ public class HashTable<T, E> {
             size++;
             for(int i = 0; i < keys.size(); i++){
                 stringValuesArray[hashFunction(keys.get(i))] = (String) values.get(i);
+            }
+        } else if(valueType.equals("INTEGER")){
+            integerValuesArray = new Integer[size + 1];
+            size++;
+            for(int j = 0; j < keys.size(); j++){
+                integerValuesArray[hashFunction(keys.get(j))] = (Integer) values.get(j);
             }
         }
     }

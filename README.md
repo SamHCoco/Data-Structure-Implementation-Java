@@ -325,9 +325,9 @@ public class BinarySearchTree{
                 size++;
                 inserted = true;
             } else if (data > currentNode.data && currentNode.rightChild != null) {
-                current_node = currentNode.rightChild;
+                currentNode = currentNode.rightChild;
             } else if (data < currentNode.data && currentNode.leftChild != null) {
-                current_node = currentNode.leftChild;
+                currentNode = currentNode.leftChild;
             }
         }
     }

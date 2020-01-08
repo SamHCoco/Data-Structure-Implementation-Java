@@ -36,25 +36,25 @@ public class BinarySearchTree{
      * @param data - the value to be inserted (Double)
      */
     public void insert(Double data) {
-        Node current_node = root;
+        Node currentNode = root;
         boolean inserted = false;
         while (!inserted) {
-            if (data > current_node.data && current_node.rightChild == null) {
-                current_node.rightChild = new Node(data);
+            if (data > currentNode.data && currentNode.rightChild == null) {
+                currentNode.rightChild = new Node(data);
                 size++;
                 inserted = true;
-            } else if (data < current_node.data && current_node.leftChild == null) {
-                current_node.leftChild = new Node(data);
+            } else if (data < currentNode.data && currentNode.leftChild == null) {
+                currentNode.leftChild = new Node(data);
                 size++;
                 inserted = true;
-            } else if (data.equals(current_node.data) && current_node.leftChild == null) {
-                current_node.leftChild = new Node(data);
+            } else if (data.equals(currentNode.data) && currentNode.leftChild == null) {
+                currentNode.leftChild = new Node(data);
                 size++;
                 inserted = true;
-            } else if (data > current_node.data && current_node.rightChild != null) {
-                current_node = current_node.rightChild;
-            } else if (data < current_node.data && current_node.leftChild != null) {
-                current_node = current_node.leftChild;
+            } else if (data > currentNode.data && currentNode.rightChild != null) {
+                currentNode = currentNode.rightChild;
+            } else if (data < currentNode.data && currentNode.leftChild != null) {
+                currentNode = currentNode.leftChild;
             }
         }
     }

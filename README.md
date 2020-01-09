@@ -302,6 +302,7 @@ public class BinarySearchTree{
      */
     public BinarySearchTree(Double data){
         root = new Node(data);
+        size++;
     }
 
     /**
@@ -414,7 +415,7 @@ public ArrayList<Double> preorderTraversal(){
                 currentNode = binaryNodes.peek();
             }
         }
-        if(counter == size + 1){
+        if(counter == size){
             traversed = true;
         }
     }
@@ -490,7 +491,7 @@ public ArrayList<Double> inorderTraversal(){
               }
           }
       }
-      if(counter == size + 1){
+      if(counter == size){
           traversed = true;
       }
   }
@@ -567,7 +568,7 @@ public ArrayList<Double> postorderTraversal(){
                 }
             }
         }
-        if(counter == size + 1){
+        if(counter == size){
             traversed = true;
         }
     }

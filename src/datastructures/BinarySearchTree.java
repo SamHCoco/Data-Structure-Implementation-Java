@@ -29,6 +29,7 @@ public class BinarySearchTree{
      */
     public BinarySearchTree(Double data){
         root = new Node(data);
+        size++;
     }
 
     /**
@@ -120,7 +121,7 @@ public class BinarySearchTree{
                     currentNode = binaryNodes.peek();
                 }
             }
-            if(counter == size + 1){
+            if(counter == size){
                 traversed = true;
             }
         }
@@ -189,7 +190,7 @@ public class BinarySearchTree{
                     }
                 }
             }
-            if(counter == size + 1){
+            if(counter == size){
                 traversed = true;
             }
         }
@@ -258,7 +259,7 @@ public class BinarySearchTree{
                     }
                 }
             }
-            if(counter == size + 1){
+            if(counter == size){
                 traversed = true;
             }
         }
